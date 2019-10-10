@@ -16,10 +16,7 @@ class Youtube extends Service
         $this->client = new Client([
             'base_uri' => config('video-services.services.youtube.api.url'),
             'timeout' => 10.0,
-            'verify' => false,
-            'query' => [
-                'key' => config('video-services.services.youtube.api.key')
-            ]
+            'verify' => false
         ]);
     }
 
@@ -35,10 +32,11 @@ class Youtube extends Service
             $id = explode('/', $parsed_url['path'])[1];
         }
 
-        $response = $this->client->get("/videos", [
+        $response = $this->client->get("videos", [
             'query' => [
                 'id' => $id,
                 'part' => 'snippet,contentDetails',
+                'key' => config('video-services.services.youtube.api.key')
             ],
         ])->getBody();
 
@@ -47,9 +45,15 @@ class Youtube extends Service
 
     protected function transform(array $data)
     {
+        if (empty($data['items'][0])) {
+            throw new \Exception('Video not found for given ID in API json response');
+        }
+
+        $data = $data['items'][0];
+
         return (object) [
-            'id' => $data['id'],
-            'title' => $data['snippet']['title'],
+            'id' => ! empty($data['id']) ? $data['id'] : null,
+            'title' => ! empty($data['snippet']['title']) ? $data['snippet']['title'] : null,
             'description' => ! empty($data['snippet']['description']) ? $data['snippet']['description'] : null,
             'thumbnail' => end($data['snippet']['thumbnails'])['url'],
             'tags' => ! empty($data['snippet']['tags']) ? $data['snippet']['tags'] : null,

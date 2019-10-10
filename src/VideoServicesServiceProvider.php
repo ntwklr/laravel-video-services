@@ -25,10 +25,11 @@ class VideoServicesServiceProvider extends ServiceProvider
 
         $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'video-services');
 
-        Route::group(__DIR__ . '/../routes/api.php')
-            ->prefix(config('video-services.router.attributes.prefix'))
-            ->middleware(config('video-services.router.attributes.middleware'))
-            ->as('video-services');
+        Route::group([
+            'middleware' => config('video-services.router.attributes.middleware'),
+            'prefix' => config('video-services.router.attributes.prefix'),
+            'as' => 'video-services.'
+        ], __DIR__ . '/../routes/web.php');
     }
 
     public function register()

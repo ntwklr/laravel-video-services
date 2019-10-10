@@ -8,7 +8,7 @@ return [
                 'youtu.be'
             ],
             'api' => [
-                'url' => 'https://www.googleapis.com/youtube/v3',
+                'url' => 'https://www.googleapis.com/youtube/v3/',
                 'key' => env('YT_KEY', 'your-api-key'),
             ]
         ],
