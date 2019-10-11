@@ -35,10 +35,9 @@ class VideoServicesServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/video-services.php', 'video-services');
-    }
 
-    public function provides()
-    {
-        return [VideoServices::class];
+        $this->app->singleton('videoservices', function($app) {
+            return new VideoServices();
+        });
     }
 }

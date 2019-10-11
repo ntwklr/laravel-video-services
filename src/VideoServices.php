@@ -3,7 +3,6 @@
 namespace Ntwklr\VideoServices;
 
 use Illuminate\Support\Arr;
-use Ntwklr\VideoServices\Services;
 
 class VideoServices
 {

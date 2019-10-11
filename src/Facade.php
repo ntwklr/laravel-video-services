@@ -2,13 +2,24 @@
 
 namespace Ntwklr\VideoServices;
 
-class Facade extends \Illuminate\Support\Facades\Facade
+use Illuminate\Support\Facades\Facade as IlluminateFacade;
+
+/**
+ * Class VideoServices
+ *
+ * @package Ntwklr\VideoServices
+ */
+class Facade extends IlluminateFacade
 {
     /**
-     * {@inheritDoc}
+     * Get the registered name of the component.
+     *
+     * @see \Ntwklr\VideoServices\VideoServices
+     *
+     * @return string
      */
     protected static function getFacadeAccessor()
     {
-        return VideoServices::class;
+        return 'videoservices';
     }
 }

@@ -45,7 +45,10 @@
         "laravel": {
             "providers": [
                 "Ntwklr\\VideoServices\\VideoServicesServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "VideoServices": "Ntwklr\\VideoServices\\Facade"
+            }
         }
     },
     "config": {
