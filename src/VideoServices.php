@@ -3,6 +3,7 @@
 namespace Ntwklr\VideoServices;
 
 use Illuminate\Support\Arr;
+use Ntwklr\VideoServices\Exceptions\ServiceNotFoundException;
 
 class VideoServices
 {
@@ -11,9 +12,13 @@ class VideoServices
         $serviceName = ucfirst($this->guessService($url));
         $serviceClass = "Ntwklr\\VideoServices\\Services\\" . $serviceName;
 
+        if(! class_exists($serviceClass)) {
+            throw new ServiceNotFoundException($serviceName);
+        }
+
         $service = new $serviceClass();
 
-        return $service->get($url);
+        return $service->info($url);
     }
 
     protected function guessService($url)
