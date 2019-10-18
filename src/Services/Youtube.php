@@ -11,16 +11,36 @@ class Youtube extends Service
 {
     protected $client;
 
-    public function __construct()
+    public function __construct(string $url)
     {
         $this->client = new Client([
             'base_uri' => config('video-services.services.youtube.api.url'),
             'timeout' => 10.0,
             'verify' => false
         ]);
+
+        $this->fill($this->transform($this->requestData($url)));
     }
 
-    public function info(string $url)
+    public function info()
+    {
+        return $this->toArray();
+    }
+
+    public function transform(array $data)
+    {
+        return (object) [
+            'id' => ! empty($data['id']) ? $data['id'] : null,
+            'title' => ! empty($data['snippet']['title']) ? $data['snippet']['title'] : null,
+            'description' => ! empty($data['snippet']['description']) ? $data['snippet']['description'] : null,
+            'thumbnail' => ! empty($data['snippet']['thumbnails']) ? end($data['snippet']['thumbnails'])['url'] : null,
+            'tags' => ! empty($data['snippet']['tags']) ? $data['snippet']['tags'] : null,
+            'published_at' => ! empty($data['snippet']['publishedAt']) ? Carbon::createFromTimeString($data['snippet']['publishedAt']) : null,
+            'duration' => ! empty($data['contentDetails']['duration']) ? CarbonInterval::fromString($data['contentDetails']['duration']) : null
+        ];
+    }
+
+    protected function requestData(string $url)
     {
         $parsed_url = parse_url($url);
 
@@ -47,25 +67,12 @@ class Youtube extends Service
             ],
         ])->getBody();
 
-        return $this->transform(json_decode($response, true));
-    }
+        $data = json_decode($response, true);
 
-    protected function transform(array $data)
-    {
         if (empty($data['items'][0])) {
             throw new \Exception('Video not found for given ID in API json response');
         }
 
-        $data = $data['items'][0];
-
-        return (object) [
-            'id' => ! empty($data['id']) ? $data['id'] : null,
-            'title' => ! empty($data['snippet']['title']) ? $data['snippet']['title'] : null,
-            'description' => ! empty($data['snippet']['description']) ? $data['snippet']['description'] : null,
-            'thumbnail' => end($data['snippet']['thumbnails'])['url'],
-            'tags' => ! empty($data['snippet']['tags']) ? $data['snippet']['tags'] : null,
-            'published_at' => Carbon::createFromTimeString($data['snippet']['publishedAt']),
-            'duration' => CarbonInterval::fromString($data['contentDetails']['duration'])
-        ];
+        return $data['items'][0];
     }
 }

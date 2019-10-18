@@ -16,9 +16,9 @@ class VideoServices
             throw new ServiceNotFoundException($serviceName);
         }
 
-        $service = new $serviceClass();
+        $service = new $serviceClass($url);
 
-        return $service->info($url);
+        return $service->info();
     }
 
     protected function guessService($url)
