@@ -18,7 +18,7 @@ class VideoServices
 
         $service = new $serviceClass($url);
 
-        return $service->info();
+        return $service->get();
     }
 
     protected function guessService($url)

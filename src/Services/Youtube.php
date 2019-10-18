@@ -11,6 +11,8 @@ class Youtube extends Service
 {
     protected $client;
 
+    protected $url;
+
     public function __construct(string $url)
     {
         $this->client = new Client([
@@ -19,17 +21,19 @@ class Youtube extends Service
             'verify' => false
         ]);
 
-        $this->fill($this->transform($this->requestData($url)));
+        $this->url = $url;
     }
 
-    public function info()
+    public function get()
     {
-        return $this->toArray();
+        $this->fill($this->transform($this->requestData($this->url)));
+
+        return $this;
     }
 
     public function transform(array $data)
     {
-        return (object) [
+        return [
             'id' => ! empty($data['id']) ? $data['id'] : null,
             'title' => ! empty($data['snippet']['title']) ? $data['snippet']['title'] : null,
             'description' => ! empty($data['snippet']['description']) ? $data['snippet']['description'] : null,
