@@ -10,6 +10,18 @@ return [
             'api' => [
                 'url' => 'https://www.googleapis.com/youtube/v3/',
                 'key' => env('YT_KEY', 'your-api-key'),
+                'timeout' => 30
+            ],
+            'thumbnails' => [
+                'url' => 'https://i.ytimg.com/vi/',
+                'sizes' => [
+                    'default' => 'default.jpg',
+                    'medium' => 'mqdefault.jpg',
+                    'high' => 'hqdefault.jpg',
+                    'standard' => 'sddefault.jpg',
+                    'maxres' => 'maxresdefault.jpg'
+                ],
+                'timeout' => 30
             ]
         ],
         'vimeo' => [
