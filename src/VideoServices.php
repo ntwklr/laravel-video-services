@@ -2,36 +2,17 @@
 
 namespace Ntwklr\VideoServices;
 
-use Illuminate\Support\Arr;
-use Ntwklr\VideoServices\Exceptions\ServiceNotFoundException;
+use Ntwklr\VideoServices\Models\Video;
 
 class VideoServices
 {
-    public function get($url)
+    public function find($url)
     {
-        $serviceName = ucfirst($this->guessService($url));
-        $serviceClass = "Ntwklr\\VideoServices\\Services\\" . $serviceName;
-
-        if(! class_exists($serviceClass)) {
-            throw new ServiceNotFoundException($serviceName);
-        }
-
-        $service = new $serviceClass($url);
-
-        return $service->get();
+        return (Video::getServiceModel($url))::find($url);
     }
 
-    protected function guessService($url)
+    public function playlist($url)
     {
-        $services = config('video-services.services');
-
-        $parsed_url = parse_url($url);
-        $parsed_url['host'] = str_replace('www.', '', $parsed_url['host']);
-
-        $serviceArray = Arr::where($services, function ($item, $key) use ($parsed_url) {
-           return in_array($parsed_url['host'], $item['urls']) ? $key : null;
-        });
-
-        return array_key_first($serviceArray);
+        return (Video::getServiceModel($url))::playlist($url);
     }
 }

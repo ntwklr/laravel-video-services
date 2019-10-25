@@ -10,9 +10,11 @@ abstract class AbstractClient
     protected $config;
     protected $client;
 
-    abstract public function transform($data);
+    abstract public function transformItem($data);
 
-    abstract public function request(string $url);
+    abstract public function get(string $url);
+
+    abstract public function request(string $uri, array $body = []);
 
     protected function getClient($url = null)
     {

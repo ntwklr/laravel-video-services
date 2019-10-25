@@ -31,6 +31,11 @@ return [
         ]
     ],
 
+    'cache' => [
+        'prefix' => 'ntwklr:videoservices',
+        'ttl' => (60 * 60 * 24)
+    ],
+
     'router'         => [
         'attributes' => [
             'prefix'     => '_video-services',
