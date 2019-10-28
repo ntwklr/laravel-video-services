@@ -2,8 +2,6 @@
 
 namespace Ntwklr\VideoServices\Clients\Youtube;
 
-use Config;
-use Illuminate\Support\Str;
 use Ntwklr\VideoServices\Clients\AbstractClient;
 use Ntwklr\VideoServices\Models\Youtube;
 
@@ -11,16 +9,17 @@ class Information extends AbstractClient
 {
     public function __construct()
     {
-        $this->config = Config::get('video-services.services.youtube.api');
+        $this->config = config('video-services.services.youtube.api');
 
         $this->client = $this->getClient();
     }
 
     public function get(string $url)
     {
-        $id = Youtube::guessId($url);
+        $type = Youtube::guessType($url);
+        $id = Youtube::guessId($url, $type);
 
-        if(Youtube::guessType($url) === 'playlist') {
+        if ($type === 'playlist') {
             $data = $this->request('playlistItems', [
                 'query' => [
                     'playlistId' => $id,
@@ -58,6 +57,17 @@ class Information extends AbstractClient
         return json_decode($response, true);
     }
 
+    public function transformList($data)
+    {
+        $return = [];
+
+        foreach ($data as $item) {
+            $return[] = $this->transformItem($item);
+        }
+
+        return $return;
+    }
+
     public function transformItem($data)
     {
         return [
@@ -69,16 +79,5 @@ class Information extends AbstractClient
             'published_at' => ! empty($data['snippet']['publishedAt']) ? $data['snippet']['publishedAt'] : null,
             'duration' => ! empty($data['contentDetails']['duration']) ? $data['contentDetails']['duration'] : null
         ];
-    }
-
-    public function transformList($data)
-    {
-        $return = [];
-
-        foreach ($data as $item) {
-            $return[] = $this->transformItem($item);
-        }
-
-        return $return;
     }
 }

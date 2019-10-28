@@ -22,34 +22,15 @@ class Youtube extends Video
         return static::hydrate((array) $client->get($url));
     }
 
-    public function getThumbnail($size = 'default')
-    {
-        if ($this->thumbnails->has($size)) {
-            $thumbnail = (object) $this->thumbnails->get($size);
-        } else {
-            $thumbnail = (object) $this->thumbnails->sortByDesc('width')->first();
-        }
-
-        $client = new Thumbnail();
-        $thumbnail->blob = $client->get($thumbnail->url);
-    }
-
-    public static function guessType($url)
+    public static function guessId($url, $type = null)
     {
         $parsed_url = parse_url($url);
 
-        if ((! empty($parsed_url['path'])) && explode('/', $parsed_url['path'])[1] === 'playlist') {
-            return 'playlist';
+        if ($type === null) {
+            $type = static::guessType($url);
         }
 
-        return 'video';
-    }
-
-    public static function guessId($url)
-    {
-        $parsed_url = parse_url($url);
-
-        if(static::guessType($url) === 'playlist') {
+        if ($type === 'playlist') {
             return explode('=', $parsed_url['query'])[1];
         }
 
@@ -69,5 +50,30 @@ class Youtube extends Video
         }
 
         return $id;
+    }
+
+    public static function guessType($url)
+    {
+        $parsed_url = parse_url($url);
+
+        if ((! empty($parsed_url['path'])) && explode('/', $parsed_url['path'])[1] === 'playlist') {
+            return 'playlist';
+        }
+
+        return 'video';
+    }
+
+    public function getThumbnail($size = null)
+    {
+        if ($size === null) {
+            $thumbnail = (object) $this->thumbnails->sortByDesc('width')->first();
+        } elseif ($this->thumbnails->has($size)) {
+            $thumbnail = (object) $this->thumbnails->get($size);
+        }
+
+        $client = new Thumbnail();
+        $thumbnail->path = $client->get($thumbnail->url);
+
+        return $thumbnail;
     }
 }

@@ -21,7 +21,7 @@ return [
                     'standard' => 'sddefault.jpg',
                     'maxres' => 'maxresdefault.jpg'
                 ],
-                'timeout' => 30
+                'timeout' => 30,
             ]
         ],
         'vimeo' => [
@@ -29,6 +29,10 @@ return [
                 'vimeo.com'
             ]
         ]
+    ],
+
+    'storage' => [
+        'path' => storage_path("app/video-services"),
     ],
 
     'cache' => [
