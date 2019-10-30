@@ -32,6 +32,8 @@
     background-color: rgba(0, 0, 0, 0.35);
 }
 
+}
+
 .video-services--clicked {
     background: transparent;
     background-image: none !important;
