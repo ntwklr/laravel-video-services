@@ -14,6 +14,13 @@ class VideoServicesServiceProvider extends ServiceProvider
         ], 'config');
 
         $this->publishes([
+            __DIR__.'/../public' => public_path('vendor/video-services'),
+        ], 'public');
+        $this->publishes([
+            __DIR__.'/../resources/assets' => base_path('resources/assets/vendor/video-services'),
+        ], 'assets');
+
+        $this->publishes([
             __DIR__ . '/../resources/views' => base_path('resources/views/vendor/video-services'),
         ], 'views');
 

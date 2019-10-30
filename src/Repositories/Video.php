@@ -51,9 +51,4 @@ class Video
             return new Collection();
         }
     }
-
-    public static function playlist(): Collection
-    {
-
-    }
 }

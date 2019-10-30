@@ -2,13 +2,13 @@
 
 namespace Ntwklr\VideoServices;
 
-use Ntwklr\VideoServices\Models\Video;
+use Ntwklr\VideoServices\Repositories\Video;
 
 class VideoServices
 {
     public function find($url)
     {
-        return (Video::getServiceModel($url))::find($url);
+        return Video::find($url);
     }
 
     public function playlist($url)
