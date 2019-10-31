@@ -8,7 +8,7 @@ use Ntwklr\VideoServices\Models\Video as VideoModel;
 
 class Video
 {
-    public static function find($url): VideoModel
+    public static function find($url)
     {
         try {
             $model = VideoModel::getServiceModel($url);
