@@ -32,8 +32,6 @@
     background-color: rgba(0, 0, 0, 0.35);
 }
 
-}
-
 .video-services--clicked {
     background: transparent;
     background-image: none !important;
@@ -44,9 +42,8 @@
     cursor: auto;
 }
 
-.video-services .play {
+.video-services div.play {
     padding: 0 15px;
-    margin-top: 50px;
     text-align: center;
     font-size: 30px;
     position: absolute;
@@ -58,32 +55,27 @@
     text-shadow: 1px -1px 0 #000000;
 }
 
-.video-services .play span {
-    padding-top: 10px;
-    display: inline-block;
-}
-
-.video-services .play:before {
+.video-services div.play:before {
     content: '';
     position: absolute;
     width: 80px;
     height: 50px;
     margin-left: -40px;
     left: 50%;
-    top: -35px;
+    top: -25px;
     background: black;
     border-radius: 5px;
 }
 
-.video-services .play:before {
+.video-services div.play:before {
     box-shadow: 0 0 5px rgba(0, 0, 0, .3);
 }
 
-.video-services .play:before {
+.video-services div.play:before {
     background: rgb(185, 0, 0);
 }
 
-.video-services .play:after {
+.video-services div.play:after {
     content: '';
     border-style: solid;
     border-width: 17px 0 17px 35px;
@@ -93,13 +85,40 @@
     height: 0;
     margin-left: -15px;
     left: 50%;
-    top: -27px;
+    top: -17px;
 }
 
-.video-services .play .small {
+.video-services .describe {
+    padding: 0 15px;
+    text-align: center;
+    font-size: 30px;
+    position: absolute;
+    bottom: 15px;
+    left: 0;
+    right: 0;
+    cursor: pointer;
+    text-shadow: 1px -1px 0 #000000;
+}
+
+.video-services .describe span {
+    padding-top: 10px;
+    display: inline-block;
+}
+
+.video-services .describe span.play {
+    display: none;
+}
+
+@media screen and (min-width: 40em) {
+    .video-services .describe span.play {
+        display: block;
+    }
+}
+
+.video-services .describe .small {
     font-size: 50%;
 }
 
-.video-services .play .small span {
+.video-services .describe .small span {
     padding-top: 0;
 }

@@ -5,15 +5,15 @@
 >
     <div class="video" style="background-image: url('{{ route('video-services.thumbnail', ['service' => 'youtube', 'id' => $video->id, 'file' => 'maxresdefault.jpg']) }}')" id="">
         <div class="overlay">
+            <div class="play" title="{!! trans('video-services::texts.google_privacy_text', ['link' => trans('video-services::texts.google_privacy_link_text')]) !!}"></div>
+
             @if(! isset($notext))
-                <div class="play">
-                    <span>{{ trans('video-services::texts.play_text') }}</span>
+                <div class="describe">
+                    <span class="play">{{ trans('video-services::texts.play_text') }}</span>
                     <div class="small">
                         <span>{!! trans('video-services::texts.google_privacy_text', ['link' => trans('video-services::texts.google_privacy_link', ['link_text' => trans('video-services::texts.google_privacy_link_text')])]) !!}</span>
                     </div>
                 </div>
-            @else
-                <div class="play" title="{!! trans('video-services::texts.google_privacy_text', ['link' => trans('video-services::texts.google_privacy_link_text')]) !!}"></div>
             @endif
         </div>
     </div>
