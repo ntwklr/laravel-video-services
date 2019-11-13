@@ -1,7 +1,7 @@
 <div class="video-services"
     data-width="{{ $width or '560' }}"
     data-height="{{ $height or '315' }}"
-    data-url="https://www.youtube-nocookie.com/embed/{{ $video->id }}"
+    data-url="https://www.youtube-nocookie.com/embed/{{ $video->id }}?autoplay=1"
 >
     <div class="video" style="background-image: url('{{ route('video-services.thumbnail', ['service' => 'youtube', 'id' => $video->id, 'file' => 'maxresdefault.jpg']) }}')" id="">
         <div class="overlay">
