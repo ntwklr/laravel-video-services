@@ -20,7 +20,7 @@ class Video extends JenssegersModel
 
     public function getPublishedAtAttribute($value)
     {
-        return Carbon::createFromTimeString($value);
+        return Carbon::parse($value);
     }
 
     public function getDurationAttribute($value)
